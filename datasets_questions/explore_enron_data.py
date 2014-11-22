@@ -16,7 +16,15 @@
 """
 
 import pickle
+import pandas as pd
+sys.path.append("../tools/")
+from feature_format import featureFormat, targetFeatureSplit
 
-enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+# enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+enron_data = pd.read_pickle("../final_project/final_project_dataset.pkl")
+enron_data = pd.DataFrame(enron_data)
+enron_data =  enron_data.T
+
+print enron_data['poi']
 
 
