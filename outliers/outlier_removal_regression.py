@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pickle
 
 from outlier_cleaner import outlierCleaner
-
+from sklearn.linear_model import LinearRegression
 
 ### load up some practice data with outliers in it
 ages = pickle.load( open("practice_outliers_ages.pkl", "r") )
@@ -27,14 +27,16 @@ ages_train, ages_test, net_worths_train, net_worths_test = train_test_split(ages
 ### the plotting code below works, and you can see what your regression looks like
 
 
+reg = LinearRegression()
+reg.fit(ages_train, net_worths_train)
+print reg.coef_
+
+print "score ", reg.score(ages_test, net_worths_test)
 
 
 
 
-
-
-
-
+'''
 
 try:
     plt.plot(ages, reg.predict(ages), color="blue")
@@ -42,7 +44,7 @@ except NameError:
     pass
 plt.scatter(ages, net_worths)
 plt.show()
-
+'''
 
 ### identify and remove the most outlier-y points
 cleaned_data = []
@@ -58,7 +60,6 @@ except NameError:
 
 
 
-
 ### only run this code if cleaned_data is returning data
 if len(cleaned_data) > 0:
     ages, net_worths, errors = zip(*cleaned_data)
@@ -68,6 +69,8 @@ if len(cleaned_data) > 0:
     ### refit your cleaned data!
     try:
         reg.fit(ages, net_worths)
+        print "new Slope", reg.coef_
+        print "score NEW", reg.score(ages_test, net_worths_test)
         plt.plot(ages, reg.predict(ages), color="blue")
     except NameError:
         print "you don't seem to have regression imported/created,"
@@ -82,3 +85,7 @@ if len(cleaned_data) > 0:
 else:
     print "outlierCleaner() is returning an empty list, no refitting to be done"
 
+for point in data:
+    salary = point[0]
+    bonus = point[1]
+    matplotlib.pyplot.scatter( salary, bonus )
