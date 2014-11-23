@@ -43,14 +43,23 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
 data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r") )
 ### there's an outlier--remove it! 
 data_dict.pop("TOTAL", 0)
+import pandas as pd
+import numpy as np
 
+df = pd.DataFrame(data_dict).T
+df['exercised_stock_options'] = df['exercised_stock_options'].replace('NaN', np.nan)
+df['salary'] = df['salary'].replace('NaN', np.nan)
+# print df['exercised_stock_options'].max(skipna = True, numeric_only = True), df['exercised_stock_options'].min(skipna = True, numeric_only = True)
+print df['salary'].max(skipna = True, numeric_only = True), df['salary'].min(skipna = True, numeric_only = True)
+'''
 
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2]
+features_list = [poi, feature_1, feature_2, feature_3]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -59,19 +68,19 @@ poi, finance_features = targetFeatureSplit( data )
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, line below assumes 2 features)
-for f1, f2 in finance_features:
-    plt.scatter( f1, f2 )
+for f1, f2, f3 in finance_features:
+    plt.scatter( f1, f2, f3 )
 plt.show()
 
 
 
 from sklearn.cluster import KMeans
-features_list = ["poi", feature_1, feature_2]
+features_list = ["poi", feature_1, feature_2, feature_3]
 data2 = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data2 )
 clf = KMeans(n_clusters=2)
 pred = clf.fit_predict( finance_features )
-Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=feature_1, f2_name=feature_2)
+# Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=feature_1, f2_name=feature_2)
 
 
 ### cluster here; create predictions of the cluster labels
@@ -86,3 +95,4 @@ except NameError:
 
 
 
+'''
