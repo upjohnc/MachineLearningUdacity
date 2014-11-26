@@ -35,5 +35,20 @@ labels_train   = labels_train[:150]
 
 ### your code goes here
 
+import pandas as pd
+
+temp = pd.DataFrame(features_train)
+print temp.shape
+
+from sklearn import tree
+from sklearn.metrics import accuracy_score
+clf = tree.DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+
+predict = clf.predict(features_test)
 
 
+
+print accuracy_score(labels_test, predict)
+
+print vectorizer.get_feature_names()[0:10]
