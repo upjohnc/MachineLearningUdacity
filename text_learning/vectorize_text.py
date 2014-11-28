@@ -40,9 +40,8 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
         temp_counter += 1
-        # if temp_counter < 200:
+        # if temp_counter < 3:
         path = "../"+path[:-1]
-        print path
         email = open(path, "r")
 
         ### use parseOutText to extract the text from the opened email
@@ -53,7 +52,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         for badWord in ["sara", "shackleton", "chris", "germani"]:
             emailtext = emailtext.replace(badWord, '')
         for stopW in sw:
-            emailtext = emailtext.replace(badWord, '')
+            emailtext = emailtext.replace(stopW, '')
 
         ### append the text to word_data
         word_data.append(emailtext)
@@ -63,8 +62,6 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
             from_data.append('0')
         elif name == 'chris':
             from_data.append('1')
-
-
 
         email.close()
 
@@ -91,5 +88,5 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 tf = TfidfVectorizer()
 tf.fit_transform(word_data)
 print len(tf.get_feature_names())
-print tf.get_feature_names()[34596]
+print tf.get_feature_names()[10]
 # get_feature_names()

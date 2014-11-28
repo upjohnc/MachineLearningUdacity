@@ -24,6 +24,7 @@ vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,
 features_train = vectorizer.fit_transform(features_train).toarray()
 features_test  = vectorizer.transform(features_test).toarray()
 
+print "here",features_train #vectorizer.fit_transform(features_train)
 
 ### a classic way to overfit is to use a small number
 ### of data points and a large number of features
@@ -35,10 +36,10 @@ labels_train   = labels_train[:150]
 
 ### your code goes here
 
-import pandas as pd
-
-temp = pd.DataFrame(features_train)
-print temp.shape
+# import pandas as pd
+#
+# temp = pd.DataFrame(features_train)
+# print temp.shape
 
 from sklearn import tree
 from sklearn.metrics import accuracy_score
